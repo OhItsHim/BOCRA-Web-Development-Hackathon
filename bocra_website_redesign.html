@@ -1,0 +1,435 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --dark:#2d2d2d;--blue:#1565C0;--yellow:#F9A825;--green:#2E7D32;--red:#B71C1C;
+    --lblue:#4FC3F7;--bg:#F5F7FA;--mid:#6B7280;--border:#E0E4EA;
+  }
+  body{background:var(--bg);font-family:'DM Mono',monospace;color:var(--dark)}
+  .page{max-width:1100px;margin:0 auto}
+
+  /* NAV */
+  nav{
+    background:#fff;border-bottom:1.5px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 2rem;height:64px;position:relative;z-index:10;
+  }
+  .logo{display:flex;flex-direction:column;gap:2px}
+  .logo-text{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--dark);letter-spacing:2px}
+  .logo-dots{display:flex;gap:5px}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .d1{background:var(--blue)}.d2{background:var(--yellow)}.d3{background:var(--green)}.d4{background:var(--red)}
+  .nav-links{display:flex;gap:2rem;font-size:12px;font-weight:500;color:var(--mid);letter-spacing:1px}
+  .nav-links span{cursor:pointer;text-transform:uppercase;transition:color .2s}
+  .nav-links span:hover{color:var(--blue)}
+  .nav-cta{display:flex;gap:10px}
+  .btn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:8px 18px;border-radius:4px;border:1.5px solid;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+  .btn-outline{background:transparent;border-color:var(--dark);color:var(--dark)}
+  .btn-outline:hover{background:var(--dark);color:#fff}
+  .btn-primary{background:var(--red);border-color:var(--red);color:#fff}
+  .btn-primary:hover{background:#8B0000;border-color:#8B0000}
+
+  /* ALERT BAR */
+  .alert-bar{background:var(--blue);color:#fff;padding:10px 2rem;display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.5px}
+  .alert-dot{width:8px;height:8px;border-radius:50%;background:#4FC3F7;flex-shrink:0;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+  /* HERO */
+  .hero{
+    position:relative;overflow:hidden;
+    background:var(--dark);
+    padding:5rem 2rem 4rem;
+    display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;
+  }
+  .hero-bg{position:absolute;inset:0;opacity:.08}
+  .hero-content{position:relative;z-index:2}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:2px;padding:6px 14px;margin-bottom:1.5rem}
+  .hero-badge span{font-size:10px;color:#4FC3F7;letter-spacing:2px;text-transform:uppercase;font-weight:500}
+  .hero-badge .hb-dot{width:6px;height:6px;border-radius:50%;background:#4FC3F7}
+  h1{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;color:#fff;line-height:1.05;letter-spacing:1px;margin-bottom:1.25rem}
+  h1 em{font-style:normal;color:#4FC3F7}
+  .hero-sub{color:rgba(255,255,255,.6);font-size:13px;line-height:1.8;margin-bottom:2rem}
+  .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+  .hbtn{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:12px 24px;border-radius:3px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:1.5px;transition:all .2s}
+  .hbtn-red{background:var(--red);color:#fff}.hbtn-red:hover{background:#8B0000}
+  .hbtn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3)}.hbtn-ghost:hover{border-color:#fff}
+
+  /* STATS */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-top:none}
+  .stat{background:#fff;padding:1.5rem 1.25rem;position:relative}
+  .stat::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%}
+  .s1::before{background:var(--blue)}.s2::before{background:var(--yellow)}.s3::before{background:var(--green)}.s4::before{background:var(--red)}
+  .stat-num{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--dark);line-height:1}
+  .stat-label{font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+  /* SECTIONS */
+  section{padding:3rem 2rem}
+  .section-header{display:flex;align-items:center;gap:1rem;margin-bottom:2rem}
+  .section-line{height:2px;width:40px;background:currentColor;flex-shrink:0}
+  .section-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:2px}
+
+  /* SECTORS */
+  .sectors-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+  .sector-card{background:#fff;padding:1.75rem 1.25rem;position:relative;overflow:hidden;cursor:pointer;transition:all .2s}
+  .sector-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  .sector-icon{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+  .sector-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;margin-bottom:.5rem}
+  .sector-desc{font-size:11px;color:var(--mid);line-height:1.7}
+  .sector-arrow{position:absolute;bottom:1.25rem;right:1.25rem;font-size:18px;opacity:.3;transition:opacity .2s}
+  .sector-card:hover .sector-arrow{opacity:1}
+  .sc-blue{border-top:3px solid var(--blue)}.sc-blue .sector-icon{background:#E3F2FD}.sc-blue .sector-name{color:var(--blue)}
+  .sc-yellow{border-top:3px solid var(--yellow)}.sc-yellow .sector-icon{background:#FFF8E1}.sc-yellow .sector-name{color:#E65100}
+  .sc-green{border-top:3px solid var(--green)}.sc-green .sector-icon{background:#E8F5E9}.sc-green .sector-name{color:var(--green)}
+  .sc-red{border-top:3px solid var(--red)}.sc-red .sector-icon{background:#FFEBEE}.sc-red .sector-name{color:var(--red)}
+
+  /* SERVICES PANEL */
+  .services-bg{background:var(--dark);padding:3rem 2rem}
+  .services-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);margin-top:2rem}
+  .service-tile{background:rgba(255,255,255,.03);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:background .2s}
+  .service-tile:hover{background:rgba(255,255,255,.08)}
+  .service-icon-wrap{width:40px;height:40px;border-radius:8px;margin:0 auto .75rem;display:flex;align-items:center;justify-content:center}
+  .service-name{font-size:10px;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;line-height:1.5}
+
+  /* NEWS STRIP */
+  .news-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+  .news-card{background:#fff;padding:1.5rem;cursor:pointer;transition:background .2s}
+  .news-card:hover{background:#F8FAFC}
+  .news-tag{display:inline-block;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:2px;margin-bottom:.75rem}
+  .tag-blue{background:#E3F2FD;color:var(--blue)}
+  .tag-green{background:#E8F5E9;color:var(--green)}
+  .tag-red{background:#FFEBEE;color:var(--red)}
+  .news-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--dark);line-height:1.25;margin-bottom:.5rem}
+  .news-meta{font-size:11px;color:var(--mid)}
+  .news-feat{padding:1.75rem}
+  .news-feat .news-title{font-size:24px}
+  .news-img{height:140px;background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);border-radius:4px;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+
+  /* CONSULTATION BANNER */
+  .consult-banner{background:var(--yellow);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+  .cb-left{display:flex;align-items:center;gap:1rem}
+  .cb-icon{width:44px;height:44px;background:rgba(0,0,0,.1);border-radius:6px;display:flex;align-items:center;justify-content:center}
+  .cb-text h3{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#1A1A00}
+  .cb-text p{font-size:12px;color:rgba(0,0,0,.6);margin-top:2px}
+  .cb-btn{background:rgba(0,0,0,.15);border:1.5px solid rgba(0,0,0,.2);color:#1A1A00;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:10px 20px;border-radius:3px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;transition:background .2s}
+  .cb-btn:hover{background:rgba(0,0,0,.25)}
+  .cb-countdown{display:flex;gap:12px;align-items:center}
+  .cd-unit{text-align:center}
+  .cd-num{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:#1A1A00;line-height:1}
+  .cd-label{font-size:9px;color:rgba(0,0,0,.5);text-transform:uppercase;letter-spacing:1px}
+  .cd-sep{font-size:24px;font-weight:700;color:rgba(0,0,0,.3);padding-bottom:4px}
+
+  /* FOOTER */
+  footer{background:#1A1A1A;padding:3rem 2rem 1.5rem}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+  .footer-brand .logo-text{font-size:24px;color:#fff;margin-bottom:.5rem}
+  .footer-tagline{font-size:12px;color:rgba(255,255,255,.4);margin-top:.75rem;line-height:1.7}
+  .footer-col h4{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.4);margin-bottom:1rem;font-weight:500}
+  .footer-col ul{list-style:none}
+  .footer-col li{font-size:12px;color:rgba(255,255,255,.6);padding:4px 0;cursor:pointer;transition:color .2s}
+  .footer-col li:hover{color:#fff}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+  .footer-copy{font-size:11px;color:rgba(255,255,255,.3)}
+
+  /* HERO SVG WEB */
+  .hero-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center}
+</style>
+
+<div class="page">
+
+<nav>
+  <div class="logo">
+    <div class="logo-text">BOCRA</div>
+    <div class="logo-dots">
+      <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <span>About</span>
+    <span>Licensing</span>
+    <span>Consumer</span>
+    <span>Publications</span>
+    <span>Consultations</span>
+    <span>News</span>
+  </div>
+  <div class="nav-cta">
+    <button class="btn btn-outline">Login</button>
+    <button class="btn btn-primary">File Complaint</button>
+  </div>
+</nav>
+
+<div class="alert-bar">
+  <div class="alert-dot"></div>
+  <span>Active Advisory: Spectrum interference reporting window open — <strong style="color:#4FC3F7;cursor:pointer">Report Now →</strong></span>
+</div>
+
+<div class="hero">
+  <svg class="hero-bg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+    <g stroke="#ffffff" stroke-width="0.5" fill="none">
+      <line x1="50" y1="80" x2="200" y2="180"/><line x1="200" y1="180" x2="380" y2="120"/>
+      <line x1="380" y1="120" x2="500" y2="250"/><line x1="500" y1="250" x2="680" y2="200"/>
+      <line x1="680" y1="200" x2="750" y2="350"/><line x1="200" y1="180" x2="320" y2="300"/>
+      <line x1="320" y1="300" x2="500" y2="250"/><line x1="320" y1="300" x2="450" y2="420"/>
+      <line x1="450" y1="420" x2="600" y2="380"/><line x1="600" y1="380" x2="750" y2="350"/>
+      <line x1="100" y1="320" x2="320" y2="300"/><line x1="100" y1="320" x2="50" y2="450"/>
+      <line x1="680" y1="200" x2="700" y2="80"/><line x1="380" y1="120" x2="550" y2="50"/>
+      <line x1="150" y1="450" x2="320" y2="300"/><line x1="50" y1="80" x2="200" y2="50"/>
+    </g>
+    <g fill="#ffffff">
+      <circle cx="50" cy="80" r="3"/><circle cx="200" cy="180" r="4"/><circle cx="380" cy="120" r="3"/>
+      <circle cx="500" cy="250" r="5"/><circle cx="680" cy="200" r="3"/><circle cx="750" cy="350" r="3"/>
+      <circle cx="320" cy="300" r="4"/><circle cx="450" cy="420" r="3"/><circle cx="600" cy="380" r="3"/>
+      <circle cx="100" cy="320" r="3"/><circle cx="700" cy="80" r="3"/><circle cx="550" cy="50" r="3"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-badge"><div class="hb-dot"></div><span>Botswana Communications Regulatory Authority</span></div>
+    <h1>Regulating <em>Botswana's</em> Communications for a Connected Future</h1>
+    <p class="hero-sub">BOCRA ensures fair play across telecoms, broadcasting, postal and internet sectors — so every Motswana can connect with confidence.</p>
+    <div class="hero-btns">
+      <button class="hbtn hbtn-red">File a Complaint</button>
+      <button class="hbtn hbtn-ghost">Apply for a License</button>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <svg width="320" height="280" viewBox="0 0 320 280">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect x="80" y="60" width="160" height="160" rx="4" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      <g>
+        <circle cx="160" cy="140" r="48" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+        <circle cx="160" cy="140" r="32" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+      </g>
+      <circle cx="160" cy="92" r="18" fill="#1565C0"/>
+      <text x="160" y="97" text-anchor="middle" fill="#fff" font-size="14" font-family="DM Mono">📡</text>
+      <circle cx="208" cy="140" r="18" fill="#F9A825"/>
+      <text x="208" y="145" text-anchor="middle" fill="#fff" font-size="14" font-family="DM Mono">📺</text>
+      <circle cx="160" cy="188" r="18" fill="#2E7D32"/>
+      <text x="160" y="193" text-anchor="middle" fill="#fff" font-size="14" font-family="DM Mono">📶</text>
+      <circle cx="112" cy="140" r="18" fill="#B71C1C"/>
+      <text x="112" y="145" text-anchor="middle" fill="#fff" font-size="14" font-family="DM Mono">✉️</text>
+      <circle cx="160" cy="140" r="14" fill="rgba(255,255,255,0.95)"/>
+      <text x="160" y="137" text-anchor="middle" fill="#2d2d2d" font-size="8" font-family="Barlow Condensed" font-weight="900">BOC</text>
+      <text x="160" y="147" text-anchor="middle" fill="#2d2d2d" font-size="8" font-family="Barlow Condensed" font-weight="900">RA</text>
+      <line x1="160" y1="110" x2="160" y2="126" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <line x1="190" y1="140" x2="174" y2="140" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <line x1="160" y1="170" x2="160" y2="154" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <line x1="130" y1="140" x2="146" y2="140" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+
+      <g fill="#fff" font-family="DM Mono" font-size="9">
+        <text x="160" y="76" text-anchor="middle" opacity=".5">TELECOMS</text>
+        <text x="232" y="144" opacity=".5">BROADCAST</text>
+        <text x="160" y="215" text-anchor="middle" opacity=".5">INTERNET</text>
+        <text x="40" y="144" text-anchor="middle" opacity=".5">POSTAL</text>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat s1">
+    <div class="stat-num">247</div>
+    <div class="stat-label">Active Licensees</div>
+  </div>
+  <div class="stat s2">
+    <div class="stat-num">1,832</div>
+    <div class="stat-label">Complaints Resolved</div>
+  </div>
+  <div class="stat s3">
+    <div class="stat-num">48</div>
+    <div class="stat-label">Public Consultations</div>
+  </div>
+  <div class="stat s4">
+    <div class="stat-num">18</div>
+    <div class="stat-label">Years of Regulation</div>
+  </div>
+</div>
+
+<section style="background:#fff">
+  <div class="page" style="padding:3rem 2rem">
+    <div class="section-header" style="color:var(--blue)">
+      <div class="section-line"></div>
+      <div class="section-title">Regulated Sectors</div>
+    </div>
+    <div class="sectors-grid">
+      <div class="sector-card sc-blue">
+        <div class="sector-icon" style="background:#E3F2FD">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1565C0" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="sector-name">Telecoms</div>
+        <div class="sector-desc">Mobile, fixed-line and network infrastructure licensing and compliance.</div>
+        <div class="sector-arrow">→</div>
+      </div>
+      <div class="sector-card sc-yellow">
+        <div class="sector-icon" style="background:#FFF8E1">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E65100" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg>
+        </div>
+        <div class="sector-name">Broadcasting</div>
+        <div class="sector-desc">Television, radio and online broadcast content regulation.</div>
+        <div class="sector-arrow">→</div>
+      </div>
+      <div class="sector-card sc-green">
+        <div class="sector-icon" style="background:#E8F5E9">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2E7D32" stroke-width="2"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+        </div>
+        <div class="sector-name">Internet</div>
+        <div class="sector-desc">ISP licensing, domain registry (.bw) and cybersecurity oversight.</div>
+        <div class="sector-arrow">→</div>
+      </div>
+      <div class="sector-card sc-red">
+        <div class="sector-icon" style="background:#FFEBEE">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B71C1C" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="sector-name">Postal Services</div>
+        <div class="sector-desc">Courier, express mail and postal services regulation.</div>
+        <div class="sector-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="consult-banner">
+  <div class="cb-left">
+    <div class="cb-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A00" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </div>
+    <div class="cb-text">
+      <h3>National Frequency Plan 2025 — Public Consultation Open</h3>
+      <p>Submit your comments before the closing date. All submissions reviewed by the Board.</p>
+    </div>
+  </div>
+  <div class="cb-countdown">
+    <div class="cd-unit"><div class="cd-num">02</div><div class="cd-label">Days</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit"><div class="cd-num">14</div><div class="cd-label">Hours</div></div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit"><div class="cd-num">37</div><div class="cd-label">Mins</div></div>
+  </div>
+  <button class="cb-btn">Participate Now</button>
+</div>
+
+<div class="services-bg">
+  <div class="page" style="padding:0">
+    <div class="section-header" style="color:var(--lblue)">
+      <div class="section-line"></div>
+      <div class="section-title" style="color:rgba(255,255,255,.5)">Quick Services</div>
+    </div>
+    <div class="services-grid">
+      <div class="service-tile">
+        <div class="service-icon-wrap" style="background:rgba(229,57,53,.2)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef9a9a" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="service-name">File Complaint</div>
+      </div>
+      <div class="service-tile">
+        <div class="service-icon-wrap" style="background:rgba(21,101,192,.2)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#90caf9" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="service-name">License Application</div>
+      </div>
+      <div class="service-tile">
+        <div class="service-icon-wrap" style="background:rgba(46,125,50,.2)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a5d6a7" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="service-name">Domain Registry</div>
+      </div>
+      <div class="service-tile">
+        <div class="service-icon-wrap" style="background:rgba(249,168,37,.15)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffe082" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="service-name">Consumer Tools</div>
+      </div>
+      <div class="service-tile">
+        <div class="service-icon-wrap" style="background:rgba(79,195,247,.15)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#81d4fa" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="service-name">Publications</div>
+      </div>
+      <div class="service-tile">
+        <div class="service-icon-wrap" style="background:rgba(255,255,255,.08)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        </div>
+        <div class="service-name">Public Notices</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section style="background:#fff">
+  <div class="page" style="padding:3rem 2rem">
+    <div class="section-header" style="color:var(--red)">
+      <div class="section-line"></div>
+      <div class="section-title">Latest News & Releases</div>
+    </div>
+    <div class="news-grid">
+      <div class="news-card news-feat">
+        <div class="news-img">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.11 12 19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <span class="news-tag tag-blue">Press Release</span>
+        <div class="news-title">BOCRA Announces New Spectrum Allocation Framework for 5G Rollout in Botswana</div>
+        <div class="news-meta">March 20, 2026 &nbsp;·&nbsp; Regulatory Affairs</div>
+      </div>
+      <div class="news-card">
+        <span class="news-tag tag-green">Advisory</span>
+        <div class="news-title">Consumer Alert: Unauthorised Telecom Operators in Gaborone North</div>
+        <div class="news-meta">March 18, 2026 &nbsp;·&nbsp; Consumer Affairs</div>
+      </div>
+      <div class="news-card">
+        <span class="news-tag tag-red">Statement</span>
+        <div class="news-title">BOCRA Response to Broadcasting Content Complaints — Q1 2026 Report</div>
+        <div class="news-meta">March 15, 2026 &nbsp;·&nbsp; Broadcasting</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="page" style="padding:0">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-text">BOCRA</div>
+          <div class="logo-dots" style="margin-top:4px">
+            <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
+          </div>
+        </div>
+        <p class="footer-tagline">Botswana Communications Regulatory Authority<br>Plot 50671 Independence Avenue<br>Private Bag 00495, Gaborone<br><br>Tel: +267 3957755 &nbsp;·&nbsp; info@bocra.org.bw</p>
+      </div>
+      <div class="footer-col">
+        <h4>About BOCRA</h4>
+        <ul>
+          <li>Our Mandate</li><li>Organisational Structure</li><li>Leadership</li><li>History</li><li>Legislation</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li>Licensing</li><li>Consumer Protection</li><li>Domain Registry (.bw)</li><li>Spectrum Management</li><li>Public Consultations</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Sectors</h4>
+        <ul>
+          <li style="color:rgba(79,163,255,.7)">▪ Telecoms</li>
+          <li style="color:rgba(249,168,37,.7)">▪ Broadcasting</li>
+          <li style="color:rgba(100,200,100,.7)">▪ Internet</li>
+          <li style="color:rgba(229,100,100,.7)">▪ Postal Services</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Botswana Communications Regulatory Authority. All rights reserved.</div>
+      <div class="footer-copy" style="display:flex;gap:1.5rem">
+        <span style="cursor:pointer;transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''">Privacy Policy</span>
+        <span style="cursor:pointer;transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''">Terms of Use</span>
+        <span style="cursor:pointer;transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''">Accessibility</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
