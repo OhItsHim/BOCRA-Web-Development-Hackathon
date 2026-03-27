@@ -1,11 +1,11 @@
-import React, { Suspense, lazy } from 'react'
+import React, { Suspense, lazy, useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from './theme/ThemeContext'
 import { useAuth } from './hooks/useAuth'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
-import LoadingSpinner from './components/common/LoadingSpinner'
+import AppLoader from './components/common/AppLoader'
 
 // Lazy load all pages
 const Home = lazy(() => import('./pages/Home'))
@@ -40,6 +40,10 @@ const NewsDetail = lazy(() => import('./pages/News/Detail'))
 const Contact = lazy(() => import('./pages/Contact'))
 const Search = lazy(() => import('./pages/Search'))
 
+const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
+const ForgotPassword = lazy(() => import('./pages/ForgotPassword'))
+
 const Portal = lazy(() => import('./pages/Portal/Dashboard'))
 const PortalApplications = lazy(() => import('./pages/Portal/Applications'))
 const PortalComplaints = lazy(() => import('./pages/Portal/Complaints'))
@@ -70,7 +74,7 @@ const queryClient = new QueryClient({
 
 function ProtectedRoute({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const { user, loading } = useAuth()
-  if (loading) return <LoadingSpinner />
+  if (loading) return <AppLoader inline />
   if (!user) return <Navigate to="/login" replace />
   if (roles && !roles.includes(user.role)) return <Navigate to="/" replace />
   return <>{children}</>
@@ -81,7 +85,7 @@ function AppRoutes() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', backgroundColor: 'var(--bg-base)' }}>
       <Navbar />
       <main id="main-content" style={{ flex: 1 }}>
-        <Suspense fallback={<LoadingSpinner />}>
+        <Suspense fallback={<AppLoader inline />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -115,6 +119,10 @@ function AppRoutes() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/search" element={<Search />} />
 
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+
             <Route path="/portal" element={<ProtectedRoute><Portal /></ProtectedRoute>} />
             <Route path="/portal/applications" element={<ProtectedRoute><PortalApplications /></ProtectedRoute>} />
             <Route path="/portal/complaints" element={<ProtectedRoute><PortalComplaints /></ProtectedRoute>} />
@@ -144,13 +152,47 @@ function AppRoutes() {
   )
 }
 
+function AppWithSplash() {
+  const [appReady, setAppReady] = useState(false)
+  const [isExiting, setIsExiting] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsExiting(true)
+      const fadeTimer = setTimeout(() => setAppReady(true), 400)
+      return () => clearTimeout(fadeTimer)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  return (
+    <>
+      {!appReady && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9999,
+          opacity: isExiting ? 0 : 1,
+          pointerEvents: isExiting ? 'none' : 'all',
+          transition: 'opacity 400ms ease',
+        }}>
+          <AppLoader />
+        </div>
+      )}
+      <div style={{ visibility: appReady ? 'visible' : 'hidden' }}>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </div>
+    </>
+  )
+}
+
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <AppWithSplash />
       </ThemeProvider>
     </QueryClientProvider>
   )
