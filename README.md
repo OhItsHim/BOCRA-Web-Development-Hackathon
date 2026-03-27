@@ -21,7 +21,7 @@ bocra-platform/
 
 | Tool | Minimum version |
 |---|---|
-| Rust | 1.75+ |
+| Rust | 1.80+ |
 | Node.js | 20+ |
 | Docker & Docker Compose | Latest stable |
 | PostgreSQL | 15 (via Docker) |
