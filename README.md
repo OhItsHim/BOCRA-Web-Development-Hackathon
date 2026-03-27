@@ -34,8 +34,8 @@ bocra-platform/
 
 ### Option A — Docker Compose (recommended)
 ```bash
-git clone https://github.com/your-org/bocra-platform
-cd bocra-platform
+git clone https://github.com/OhItsHim/BOCRA-Web-Development-Hackathon
+cd BOCRA-Web-Development-Hackathon
 
 cp bocra-api/.env.example bocra-api/.env
 
