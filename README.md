@@ -6,10 +6,10 @@
 
 ## Architecture
 ```
-bocra-platform/
-├── bocra-api/          # Rust (Axum) backend
-├── bocra-web/          # React 18 + TypeScript frontend
-└── docker-compose.yml  # Full-stack orchestration
+BOCRA-Web-Development-Hackathon/
+                  ├── bocra-api/          # Rust (Axum) backend
+                  ├── bocra-web/          # React 18 + TypeScript frontend
+                  └── docker-compose.yml  # Full-stack orchestration
 ```
 ```
 
