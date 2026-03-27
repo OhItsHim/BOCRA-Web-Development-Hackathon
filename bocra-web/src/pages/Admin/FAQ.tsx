@@ -21,7 +21,8 @@ export default function AdminFAQ() {
     queryFn: () => client.get('/faq', { params: sectorFilter !== 'ALL' ? { sector: sectorFilter } : {} }).then(r => r.data),
   })
 
-  const items = (data?.faqs || data || []) as any[]
+  const raw = data?.faqs || data?.items || data?.data || data
+  const items = (Array.isArray(raw) ? raw : []) as any[]
 
   const createMutation = useMutation({
     mutationFn: (d: typeof form) => client.post('/faq', d),

@@ -22,7 +22,8 @@ export default function AdminConsultations() {
     queryFn: () => consultationsApi.list().then(r => r.data),
   })
 
-  const items = data?.consultations || data || []
+  const raw = data?.consultations || data?.items || data?.data || data
+  const items = Array.isArray(raw) ? raw : []
 
   const createMutation = useMutation({
     mutationFn: (d: typeof form) => consultationsApi.create(d),

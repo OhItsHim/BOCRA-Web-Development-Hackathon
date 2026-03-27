@@ -20,7 +20,8 @@ export default function AdminPublications() {
     queryFn: () => publicationsApi.list().then(r => r.data),
   })
 
-  const pubs = data?.publications || data || []
+  const raw = data?.publications || data?.items || data?.data || data
+  const pubs = Array.isArray(raw) ? raw : []
 
   const createMutation = useMutation({
     mutationFn: (d: typeof form) => publicationsApi.create(d),

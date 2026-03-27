@@ -28,7 +28,8 @@ export default function AdminApplications() {
     queryFn: () => licensesApi.listApplications(filter !== 'ALL' ? { status: filter } : {}).then(r => r.data),
   })
 
-  const apps = data?.applications || data || []
+  const raw = data?.applications || data?.items || data?.data || data
+  const apps = Array.isArray(raw) ? raw : []
 
   const mutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>

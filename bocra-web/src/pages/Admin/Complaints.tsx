@@ -23,7 +23,8 @@ export default function AdminComplaints() {
     queryFn: () => complaintsApi.list(filter !== 'ALL' ? { status: filter } : {}).then(r => r.data),
   })
 
-  const complaints = data?.complaints || data || []
+  const raw = data?.complaints || data?.items || data?.data || data
+  const complaints = Array.isArray(raw) ? raw : []
 
   const statusMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) =>

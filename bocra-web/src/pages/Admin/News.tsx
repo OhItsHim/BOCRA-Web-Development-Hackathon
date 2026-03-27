@@ -19,7 +19,8 @@ export default function AdminNews() {
     queryFn: () => newsApi.list().then(r => r.data),
   })
 
-  const articles = data?.articles || data || []
+  const raw = data?.articles || data?.items || data?.data || data
+  const articles = Array.isArray(raw) ? raw : []
 
   const createMutation = useMutation({
     mutationFn: (d: any) => newsApi.create({ ...d, tags: d.tags ? d.tags.split(',').map((t: string) => t.trim()) : [] }),

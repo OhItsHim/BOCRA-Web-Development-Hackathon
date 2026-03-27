@@ -20,7 +20,8 @@ export default function AdminAlerts() {
     queryFn: () => adminApi.getAlerts().then(r => r.data),
   })
 
-  const alerts = data?.alerts || data || []
+  const raw = data?.alerts || data?.items || data?.data || data
+  const alerts = Array.isArray(raw) ? raw : []
 
   const createMutation = useMutation({
     mutationFn: (d: typeof form) => adminApi.createAlert(d),

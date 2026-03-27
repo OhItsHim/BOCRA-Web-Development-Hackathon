@@ -26,7 +26,8 @@ export default function AdminLicensees() {
     queryFn: () => licensesApi.listLicensees(sector !== 'ALL' ? { sector } : {}).then(r => r.data),
   })
 
-  const licensees = (data?.licensees || data || []).filter((l: any) =>
+  const raw = data?.licensees || data?.items || data?.data || data
+  const licensees = (Array.isArray(raw) ? raw : []).filter((l: any) =>
     search === '' || l.company_name?.toLowerCase().includes(search.toLowerCase()) ||
     l.license_number?.toLowerCase().includes(search.toLowerCase())
   )

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useQuery } from '@tanstack/react-query'
 import { adminApi } from '../../api/endpoints/admin'
 import { licensesApi } from '../../api/endpoints/licenses'
 import { complaintsApi } from '../../api/endpoints/complaints'
 import StatusBadge from '../../components/common/StatusBadge'
-import SectorBadge from '../../components/common/SectorBadge'
 import LoadingSpinner from '../../components/common/LoadingSpinner'
+import BocraLogo from '../../components/common/BocraLogo'
 
 // ──────────────── Sidebar ────────────────
 const NAV_ITEMS = [
@@ -31,7 +31,8 @@ export function AdminSidebar() {
       borderRight: '1px solid var(--border-subtle)', minHeight: '100vh',
       padding: '1.5rem 0.75rem', display: 'flex', flexDirection: 'column', gap: '0.25rem',
     }}>
-      <div style={{ marginBottom: '1.5rem', paddingLeft: '0.5rem' }}>
+      <div style={{ marginBottom: '2rem', paddingLeft: '0.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <BocraLogo size="medium" />
         <p style={{ fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
           Administration
         </p>
@@ -119,8 +120,10 @@ export default function AdminDashboard() {
     queryFn: () => complaintsApi.list({ priority: 'URGENT,HIGH', limit: 5 }).then(r => r.data),
   })
 
-  const apps = appsData?.applications || appsData || []
-  const urgentComplaints = compData?.complaints || compData || []
+  const rawApps = appsData?.applications || appsData?.items || appsData?.data || appsData
+  const apps = Array.isArray(rawApps) ? rawApps : []
+  const rawComps = compData?.complaints || compData?.items || compData?.data || compData
+  const urgentComplaints = Array.isArray(rawComps) ? rawComps : []
 
   const kpis = [
     {
