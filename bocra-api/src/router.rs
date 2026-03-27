@@ -1,14 +1,14 @@
 use axum::{
+    http::{header, HeaderValue, Method},
     middleware,
     routing::{delete, get, patch, post},
     Router,
 };
 use tower_http::{
     compression::CompressionLayer,
-    cors::{Any, CorsLayer},
+    cors::CorsLayer,
     trace::TraceLayer,
 };
-use axum::http::{HeaderValue, Method};
 
 use crate::{handlers, middleware::security::security_headers, AppState};
 
@@ -21,8 +21,19 @@ pub fn create_router(state: AppState) -> Router {
                 .parse::<HeaderValue>()
                 .unwrap_or(HeaderValue::from_static("http://localhost:5173")),
         )
-        .allow_methods([Method::GET, Method::POST, Method::PATCH, Method::DELETE, Method::OPTIONS])
-        .allow_headers(Any)
+        .allow_methods([
+            Method::GET,
+            Method::POST,
+            Method::PATCH,
+            Method::DELETE,
+            Method::OPTIONS,
+        ])
+        .allow_headers([
+            header::AUTHORIZATION,
+            header::CONTENT_TYPE,
+            header::ACCEPT,
+            header::ORIGIN,
+        ])
         .allow_credentials(true);
 
     let api = Router::new()
@@ -44,7 +55,10 @@ pub fn create_router(state: AppState) -> Router {
         .route("/licenses/applications", post(handlers::licenses::create_application))
         .route("/licenses/applications", get(handlers::licenses::list_applications))
         .route("/licenses/applications/:id", get(handlers::licenses::get_application))
-        .route("/licenses/applications/:id/status", patch(handlers::licenses::update_application_status))
+        .route(
+            "/licenses/applications/:id/status",
+            patch(handlers::licenses::update_application_status),
+        )
         .route("/licenses/track", get(handlers::licenses::track_application))
         .route("/licenses/licensees", get(handlers::licenses::list_licensees))
         .route("/licenses/licensees", post(handlers::licenses::create_licensee))
@@ -54,7 +68,10 @@ pub fn create_router(state: AppState) -> Router {
         .route("/consultations", post(handlers::consultations::create_consultation))
         .route("/consultations/:id", get(handlers::consultations::get_consultation))
         .route("/consultations/:id", patch(handlers::consultations::update_consultation))
-        .route("/consultations/:id/submit", post(handlers::consultations::submit_consultation))
+        .route(
+            "/consultations/:id/submit",
+            post(handlers::consultations::submit_consultation),
+        )
         // Publications
         .route("/publications", get(handlers::publications::list_publications))
         .route("/publications", post(handlers::publications::create_publication))
